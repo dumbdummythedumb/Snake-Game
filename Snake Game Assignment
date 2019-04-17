@@ -1,0 +1,137 @@
+import turtle
+def set_up_screen(title, colour, dimensions):
+    '''
+    return the title, background colour, and the dimensions of the screen on which the game is going to be played
+    >>>set_up_screen("Snake Game", "yellow", "width=20, length=20")
+    '''
+    screen=turtle.Screen()
+    screen.title("Snake Game")
+    screen.bgcolour("yellow")
+    screen.dimensions(width=20, length=20)
+    return screen
+
+def initial_snake(shape, colour, speed, position):
+    '''
+    return the initial snakes shape, colour, speed, and its position
+    >>>initial_snake("circle", "black", 1, (0,0))
+    '''
+    snake=turtle.Turtle()
+    snake.shape("circle")
+    snake.colour("black")
+    snake.speed(1)
+    snake.position(0,0)
+    return initial_snake
+
+def valid_move(direction)->bool:
+    '''
+    return true iff the move is valid, which is if the snake moves to either a free space or a space with food. Else print "Game Over"
+    >>>valid_move("right")
+    True
+    >>>valid_move("up")
+    False
+    '''
+    if snake.distance(snake_segment)<1:
+        return False
+    if snake.distance(screen_boarder)<1:
+        return False
+    if snake.distance(food)<1:
+        return True
+    if snake.distance(random)<1:
+        return True
+        
+def move_with_keyboard(direction, key):
+    '''
+    return what letter on the keyboard you want to move the snake in what direction
+    '''
+    screen.onkeypress(go_up, "i")
+    screen.onkeypress(go_down, "k")
+    screen.onkeypress(go_right, "j")
+    screen.onkeypress(go_left, "l")
+
+def food(shape, colour, position):
+    '''
+    return the shape, colour, and the position of the food piece
+    >>>food("circle", "red", (5,7))
+    '''
+    food=turtle.Turtle()
+    food.shape("square")
+    food.colour("red")
+    food.position(random)
+    food.speed(0)
+    return food
+
+def move_food(random):
+    '''
+    return a new random position for the food when food is touched by the snake
+    '''
+    if snake.distance(food)<1:
+        food.goto(random)
+
+def update_snake(shape, colour):
+    '''
+    create a new segment and then return the updated version of the snake with the segment added to ir when snake touches food
+    '''
+    new_segment=turtle.Turtle()
+    new_segment.shape("circle")
+    new_segment.colour("black")
+    snake.append(new_segment)
+    return snake
+    
+def new_game(distance):
+    '''
+    restart the game when snake hits itself or the boarder . Print "Game Over" and return the game starting from the beginning again
+    '''
+    if snake.distance(boarder)<1:
+        if snake.distance(snake_segment)<1:
+            print ("Game Over")
+    snake.goto(0,0)
+    
+if __name__=="__main__":
+    selection = input ("What title, colour, and dimensions do you want your game screen to be?")
+    while not valid_choice(selection):
+        selection = input ("What title, colour, and dimensions do you want your game screen to be?")
+
+    if selection == ("title", "colour", "dimensions"):
+        print(screen("title", "colour", "dimensions"))
+
+    selection = input ("What shape and colour would you like your initial snake to be?")
+    while not valid_choice(selection):
+        selection = input ("Waht shape and colour would you like your initial snake to be?")
+
+    if selection == ("shape", "colour"):
+        print(initial_snake("shape", "colour"))
+
+    selection = input ("What shape and colour would you like your food piece to be?")
+    while not valid_choice(selection):
+        selection = input ("What shape and colour would you like your food piece to be?")
+
+    if selection == ("shape", "colour"):
+        print(food("shape", "colour"))
+
+    selection = input("What colour and shape would you like your snake segments to be?")
+    while not valid_choice(selection):
+        selection = input ("What colour and shape would you like your snake segments to be?")
+
+    if selection == ("colour", "shape"):
+        print(snake_segment("colour", "shape"))
+
+    selection = input ("What way would you like your snake to go?")
+    while not valid_choice(selection):
+        selection = input ("What way would you like your snake to go?")
+
+    if selection == "i":
+        print(move("up"))
+
+    if selection == "k":
+        print(move("down"))
+
+    if selection == "j":
+        print(move("right"))
+
+    if selection == "l":
+        print(move("left"))
+
+print("Game Over!")
+
+        
+    
